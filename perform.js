@@ -3,22 +3,21 @@ let { Octokit } = require('@octokit/rest')
 let fetchArticle = require('./src/fetchArticle')
 let renderToMarkdown = require('./src/renderToMarkdown')
 let fetch = require('node-fetch')
+const moment = require('moment')
 
 require('dotenv').config()
 
-const header = `
----
+const header = `---
 language: zh-CN
 toc: true
 thumbnail: https://random.imagecdn.app/500/150
 cover: https://random.imagecdn.app/500/150
-date: ${now()}
+date: ${moment().format('YYYY-MM-DD HH:mm')}
 categories:
     - RWTAS
 tags:
     - 传统文化
----
-`
+---`
 const footer = `> 文章转自：`
 
 let TOKEN = process.env.TOKEN
