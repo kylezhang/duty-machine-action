@@ -72,7 +72,7 @@ async function performTasks(list) {
         issue_number: issue.number,
         title: articleData.title,
         body: `${header}\n${renderToMarkdown(articleData)}\n${footer}[${articleData.title}](${url})`,
-        labels: ['fetched', 'copied', 'publish'],
+        labels: ['fetched'],
         state: 'closed'
       })
       // octokit.rest.issues.removeLabel({
