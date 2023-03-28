@@ -55,11 +55,11 @@ async function performTasks(list) {
       await octokit.issues.update({
         owner: OWNER,
         repo: REPO,
+        title: articleData.title,
         issue_number: issue.number,
         body: `${renderToMarkdown(articleData)}${footer}[${articleData.title}](${url})`,
-        state: 'closed',
-        title: articleData.title,
-        labels: ['fetched', 'copied', 'publish']
+        labels: ['fetched', 'copied', 'publish'],
+        state: 'closed'
       })
     } catch(error) {
       await octokit.issues.createComment({
