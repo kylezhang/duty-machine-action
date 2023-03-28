@@ -14,9 +14,9 @@ thumbnail: https://random.imagecdn.app/500/150
 cover: https://random.imagecdn.app/500/150
 date: ${moment().format('YYYY-MM-DD HH:mm')}
 categories:
-    - ''
+    - '转载'
 tags:
-    - ''
+    - '转载'
 ---`
 
 
@@ -45,7 +45,7 @@ async function getTasks() {
     let { data } = await octokit.issues.listForRepo({
       owner: OWNER,
       repo: REPO,
-      state: 'copy'
+      state: 'opened'
     })
     return data
   }
@@ -75,12 +75,12 @@ async function performTasks(list) {
         labels: ['fetched', 'copied', 'publish'],
         state: 'closed'
       })
-      octokit.rest.issues.removeLabel({
-        owner: OWNER,
-        repo: REPO,
-        issue_number: issue.number,
-        name: 'copy',
-      });
+      // octokit.rest.issues.removeLabel({
+      //   owner: OWNER,
+      //   repo: REPO,
+      //   issue_number: issue.number,
+      //   name: 'copy',
+      // });
     } catch(error) {
       await octokit.issues.createComment({
         owner: OWNER,
