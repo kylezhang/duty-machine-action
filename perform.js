@@ -44,16 +44,17 @@ async function performTasks(list) {
       let url = issue.body || issue.title
       let resp = await fetch(url)
       let articleData = await fetchArticle(resp.url)
-      await octokit.issues.createComment({
-        owner: OWNER,
-        repo: REPO,
-        issue_number: issue.number,
-        body: renderToMarkdown(articleData)
-      })
+//       await octokit.issues.createComment({
+//         owner: OWNER,
+//         repo: REPO,
+//         issue_number: issue.number,
+//         body: renderToMarkdown(articleData)
+//       })
       await octokit.issues.update({
         owner: OWNER,
         repo: REPO,
         issue_number: issue.number,
+        body: renderToMarkdown(articleData),
         state: 'closed',
         title: articleData.title,
         labels: ['fetched']
