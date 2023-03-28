@@ -6,7 +6,7 @@ let fetch = require('node-fetch')
 
 require('dotenv').config()
 
-const footer = `\n > 文章转自：`
+const footer = `\n> 文章转自：`
 
 let TOKEN = process.env.TOKEN
 let REPOSITORY = process.env.REPOSITORY
@@ -56,7 +56,7 @@ async function performTasks(list) {
         owner: OWNER,
         repo: REPO,
         issue_number: issue.number,
-        body: `${renderToMarkdown(articleData)} ${footer} [${articleData.title}](${url})`,
+        body: `${renderToMarkdown(articleData)}${footer}[${articleData.title}](${url})`,
         state: 'closed',
         title: articleData.title,
         labels: ['fetched', 'copied', 'publish']
