@@ -14,10 +14,12 @@ thumbnail: https://random.imagecdn.app/500/150
 cover: https://random.imagecdn.app/500/150
 date: ${moment().format('YYYY-MM-DD HH:mm')}
 categories:
-    - RWTAS
+    - ''
 tags:
-    - 传统文化
+    - ''
 ---`
+
+
 const footer = `> 文章转自：`
 
 let TOKEN = process.env.TOKEN
@@ -43,7 +45,7 @@ async function getTasks() {
     let { data } = await octokit.issues.listForRepo({
       owner: OWNER,
       repo: REPO,
-      state: 'open'
+      state: 'copy'
     })
     return data
   }
@@ -73,6 +75,12 @@ async function performTasks(list) {
         labels: ['fetched', 'copied', 'publish'],
         state: 'closed'
       })
+      octokit.rest.issues.removeLabel({
+        owner: OWNER,
+        repo: REPO,
+        issue_number: issue.number,
+        name: 'copy',
+      });
     } catch(error) {
       await octokit.issues.createComment({
         owner: OWNER,
