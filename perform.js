@@ -6,6 +6,8 @@ let fetch = require('node-fetch')
 
 require('dotenv').config()
 
+const footer = `\n > 文章转自：`
+
 let TOKEN = process.env.TOKEN
 let REPOSITORY = process.env.REPOSITORY
 let EVENT = process.env.EVENT
@@ -44,20 +46,20 @@ async function performTasks(list) {
       let url = issue.body || issue.title
       let resp = await fetch(url)
       let articleData = await fetchArticle(resp.url)
-//       await octokit.issues.createComment({
-//         owner: OWNER,
-//         repo: REPO,
-//         issue_number: issue.number,
-//         body: renderToMarkdown(articleData)
-//       })
+      // await octokit.issues.createComment({
+      //   owner: OWNER,
+      //   repo: REPO,
+      //   issue_number: issue.number,
+      //   body: renderToMarkdown(articleData)
+      // })
       await octokit.issues.update({
         owner: OWNER,
         repo: REPO,
         issue_number: issue.number,
-        body: renderToMarkdown(articleData),
+        body: `${renderToMarkdown(articleData)} ${footer} [${articleData.title}](${url})`,
         state: 'closed',
         title: articleData.title,
-        labels: ['fetched']
+        labels: ['fetched', 'copied', 'publish']
       })
     } catch(error) {
       await octokit.issues.createComment({
