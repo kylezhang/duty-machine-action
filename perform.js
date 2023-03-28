@@ -6,7 +6,20 @@ let fetch = require('node-fetch')
 
 require('dotenv').config()
 
-const footer = `\n> 文章转自：`
+const header = `
+---
+language: zh-CN
+toc: true
+thumbnail: https://random.imagecdn.app/500/150
+cover: https://random.imagecdn.app/500/150
+date: ${now()}
+categories:
+    - RWTAS
+tags:
+    - 传统文化
+---
+`
+const footer = `> 文章转自：`
 
 let TOKEN = process.env.TOKEN
 let REPOSITORY = process.env.REPOSITORY
@@ -55,9 +68,9 @@ async function performTasks(list) {
       await octokit.issues.update({
         owner: OWNER,
         repo: REPO,
-        title: articleData.title,
         issue_number: issue.number,
-        body: `${renderToMarkdown(articleData)}${footer}[${articleData.title}](${url})`,
+        title: articleData.title,
+        body: `${header}\n${renderToMarkdown(articleData)}\n${footer}[${articleData.title}](${url})`,
         labels: ['fetched', 'copied', 'publish'],
         state: 'closed'
       })
